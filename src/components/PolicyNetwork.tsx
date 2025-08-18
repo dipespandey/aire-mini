@@ -2,12 +2,20 @@ import React, { useEffect, useMemo, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import type { EChartsOption } from 'echarts'
 import { fetchAIPoliciesFromWikidata } from '../api/wikidata'
+import LoadingSpinner from './LoadingSpinner'
 
 export default function PolicyNetwork({height=380}:{height?:number}){
   const [rows, setRows] = useState<any[]>([])
   const [error, setError] = useState<string|null>(null)
+  const [loading, setLoading] = useState(true)
 
-  useEffect(()=>{ fetchAIPoliciesFromWikidata().then(setRows).catch(e=>setError(e.message)) },[])
+  useEffect(()=>{ 
+    setLoading(true)
+    fetchAIPoliciesFromWikidata()
+      .then(setRows)
+      .catch(e=>setError(e.message))
+      .finally(()=>setLoading(false))
+  },[])
 
   const { nodes, edges } = useMemo(()=>{
     const nodesMap = new Map<string, any>()
@@ -38,6 +46,8 @@ export default function PolicyNetwork({height=380}:{height?:number}){
       force: { repulsion: 150, gravity: 0.05 }
     }]
   }
+  if (loading) return <LoadingSpinner size="lg" />
+
   return (
     <div>
       {error ? <div className="text-sm text-red-600">Wikidata error: {error}</div> : null}

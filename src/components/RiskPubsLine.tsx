@@ -2,13 +2,19 @@ import React, { useEffect, useState } from 'react'
 import ReactECharts from 'echarts-for-react'
 import type { EChartsOption } from 'echarts'
 import { fetchAISafetyPublicationsByYear } from '../api/openalex'
+import LoadingSpinner from './LoadingSpinner'
 
 export default function RiskPubsLine({ height=300 }: {height?: number}) {
   const [series, setSeries] = useState<{year:number, count:number}[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(()=>{
-    fetchAISafetyPublicationsByYear().then(setSeries).catch(e=>setError(e.message))
+    setLoading(true)
+    fetchAISafetyPublicationsByYear()
+      .then(setSeries)
+      .catch(e=>setError(e.message))
+      .finally(()=>setLoading(false))
   },[])
 
   const years = series.map(d=>d.year)
@@ -23,6 +29,8 @@ export default function RiskPubsLine({ height=300 }: {height?: number}) {
       { type: 'line', data: counts, smooth: true }
     ]
   }
+  if (loading) return <LoadingSpinner size="lg" />
+
   return (
     <div>
       {error ? <div className="text-sm text-red-600">OpenAlex error: {error}</div> : null}

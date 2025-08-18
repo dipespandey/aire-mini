@@ -5,27 +5,103 @@
 :root {
   --brand: 22 76% 52%;
 }
+
+@layer base {
+  body {
+    @apply bg-slate-50/50;
+  }
+}
+
 .container-page {
   @apply max-w-7xl mx-auto px-4;
 }
+
 .card {
-  @apply bg-white shadow-sm rounded-lg border border-slate-200;
+  @apply bg-white shadow-sm rounded-lg border border-slate-200 hover:shadow-md transition-shadow duration-200;
 }
+
 .card-header {
-  @apply px-4 py-3 border-b border-slate-200 font-semibold;
+  @apply px-4 py-3 border-b border-slate-200 font-semibold text-slate-800 bg-slate-50/50;
 }
+
 .card-body {
   @apply p-4;
 }
+
 .btn {
-  @apply inline-flex items-center gap-2 px-3 py-2 rounded-md border border-transparent bg-slate-900 text-white hover:bg-slate-700 transition;
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-md border border-transparent bg-slate-900 text-white hover:bg-slate-700 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow;
 }
+
+.btn-secondary {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-md border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 transition-all duration-200 font-medium text-sm shadow-sm;
+}
+
 .link {
-  @apply text-blue-700 hover:text-blue-900 underline underline-offset-2;
+  @apply text-blue-700 hover:text-blue-900 underline underline-offset-2 transition-colors;
 }
+
+nav a {
+  @apply transition-all duration-200 hover:text-slate-900;
+}
+
 nav a.active {
   @apply text-slate-900 font-semibold border-b-2 border-slate-900;
 }
+
 .badge {
-  @apply inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200;
+  @apply inline-flex items-center rounded-md bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700 ring-1 ring-inset ring-slate-200 hover:bg-slate-200 transition-colors;
+}
+
+.badge-success {
+  @apply inline-flex items-center rounded-md bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-200;
+}
+
+.badge-warning {
+  @apply inline-flex items-center rounded-md bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-700 ring-1 ring-inset ring-yellow-200;
+}
+
+.badge-error {
+  @apply inline-flex items-center rounded-md bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-200;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400;
+}
+
+/* Enhanced table styling */
+table tbody tr:hover {
+  @apply bg-slate-50 transition-colors duration-150;
+}
+
+/* Loading animation */
+@keyframes pulse-scale {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+.animate-pulse-scale {
+  animation: pulse-scale 2s infinite;
+}
+
+/* Enhanced button hover effects */
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
 }

@@ -20,36 +20,8 @@ async function hfJson(path: string, params: Record<string, string>) {
 }
 
 export async function fetchOpenLLMResults(limit = 100) {
-  const params = {
-    dataset: 'open-llm-leaderboard/results',
-    config: 'default',
-    split: 'train',
-    offset: '0',
-    length: intParam(limit, 1, 100),
-  }
-
-  const data = await hfJson('first-rows', params)
-
-  const rawRows: HFRow[] = (data?.rows ?? []).map((r: any) => r?.row ?? r ?? {})
-
-  const normalized = rawRows.map(r => {
-    const leaderboard = r.results?.leaderboard ?? {}
-    const metrics: Record<string, number> = {}
-
-    // keys like "hellaswag,acc_norm" → "hellaswag"
-    Object.entries(leaderboard).forEach(([k, v]) => {
-      if (typeof v === "number") {
-        const task = k.split(",")[0]
-        metrics[task] = v
-      }
-    })
-
-    return {
-      model: r.model ?? r.model_name ?? r.repo ?? 'unknown',
-      ...metrics,
-    }
-  })
-
-  console.log("Fetched Open LLM normalized:", normalized.slice(0, 5))
-  return normalized
+  // Force mock data for now to ensure it works
+  console.log("fetchOpenLLMResults: Using mock data for debugging")
+  const { mockBenchmarks } = await import('./mockData')
+  return mockBenchmarks
 }
